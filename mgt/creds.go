@@ -14,6 +14,25 @@ func hdl(err error) {
 	}
 }
 
+func getScriptText(username, password string) []byte {
+	top := fmt.Sprintf(
+`#!/bin/sh
+
+# This file is supposed to kept off of GitHub so that Microsoft doesn't have
+# access to the credentials.
+
+[ -z "$1" ] &&
+	echo "See the README.md for usage." &&
+	exit 1
+
+`)
+
+	creds := fmt.Sprintf("export login='%v:%v'\n", username, password)
+	bottom := fmt.Sprintln("./sh/rets $@")
+
+	return []byte(top + creds + bottom)
+}
+
 // Returns the filename (including path) of the pr script we're making
 func getFilename() string {
 	// e.g. "/home/michael/src/rets/mgt/creds"
@@ -45,6 +64,7 @@ func main() {
 	password := scanner.Text()
 	filename := getFilename()
 
-	fmt.Println(username, password)
-	fmt.Println(filename)
+	contents := getScriptText(username, password)
+	err := os.WriteFile(filename, contents, 0755)
+	hdl(err)
 }
