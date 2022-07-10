@@ -1,0 +1,94 @@
+#!/bin/sh
+
+# This script reads $login, which isn't set in here.
+# It is set in ./pr
+
+[ -z "$login" ] &&
+	echo "You're supposed to use ./pr" &&
+	exit 1
+
+url="http://retsau.torontomls.net:6103/rets-treb3pv/server"
+header="rets-version: RETS/1.7"
+
+case "$1" in
+	clean)
+		rm -f *txt *xml headers output python/data
+		mkdir -p output headers
+		touch output/login.xml headers/login.txt ;;
+
+	# look)
+		# grep -ri TREB3PV
+		# grep -r "[A-Z][0-9]\+" ;;
+
+	login)
+		mkdir -p output headers
+		touch output/$1.xml headers/$1.txt
+
+		curl \
+		--digest \
+		--show-error \
+		--cookie-jar cookies.txt \
+		--cookie cookies.txt \
+		-u "$login" \
+		-H "$header" \
+		-o output/$1.xml \
+		--dump-header headers/$1.txt \
+		"$url/$1" ;;
+
+	getmetadata) curl \
+		--digest \
+		--show-error \
+		--cookie-jar cookies.txt \
+		--cookie cookies.txt \
+		-u "$login" \
+		-H "$header" \
+		-o output/$1.xml \
+		--dump-header headers/$1.txt \
+		--data Type=METADATA-SYSTEM \
+		--data ID=* \
+		--data Format=COMPACT \
+		"$url/$1" ;;
+
+	search)
+		case "$2" in
+	        # --data Query="(MediaKey=),(MediaType=IMAGE)" \
+			1) curl \
+				--digest \
+				--show-error \
+				--cookie-jar cookies.txt \
+				--cookie cookies.txt \
+				-u "$login" \
+				-H "$header" \
+				-o output/$1.xml \
+				--dump-header headers/$1.txt \
+		        --data Format=COMPACT \
+		        --data SearchType=Property \
+		        --data Class=CondoProperty \
+		        --data StandardNames=0 \
+		        --data QueryType=DMQL2 \
+		        --data Query="(Ld=2022-07-10)" \
+				"$url/$1" ;;
+
+			2) curl \
+				--digest \
+				--show-error \
+				--cookie-jar cookies.txt \
+				--cookie cookies.txt \
+				-u "$login" \
+				-H "$header" \
+				-o output/$1.xml \
+				--dump-header headers/$1.txt \
+		        --data Format=COMPACT \
+		        --data SearchType=Property \
+		        --data Class=ResidentialProperty \
+		        --data StandardNames=0 \
+		        --data QueryType=DMQL2 \
+		        --data Query="(Ml_num=N5671526)" \
+				"$url/$1" ;;
+
+		esac ;;
+
+	*)
+		echo "(sh)rets: Invalid usage"
+		exit 1 ;;
+esac
