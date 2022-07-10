@@ -1,94 +1,86 @@
-#!/bin/sh
+#!/bin/sh -e
 
-# This script reads $login, which isn't set in here.
-# It is set in ./pr
+# This script reads $login, which is only set in ROOT/pr.
 
 [ -z "$login" ] &&
-	echo "You're supposed to use ./pr" &&
+	echo "You're not supposed to call ./rets manually. See the README.md." &&
 	exit 1
 
 url="http://retsau.torontomls.net:6103/rets-treb3pv/server"
 header="rets-version: RETS/1.7"
 
+# Default locations
+mkdir -p output headers data
+
+# Default curl arguments
+alias req="curl \
+	--digest \
+	--show-error \
+	--cookie-jar data/cookies.txt \
+	--cookie data/cookies.txt \
+	-u '$login' \
+	-H '$header'"
+
+# If you're running a search or a metadata get, check for cookies.txt, meaning
+# that you've already logged in.
 case "$1" in
-	clean)
-		rm -f *txt *xml headers output python/data
-		mkdir -p output headers
-		touch output/login.xml headers/login.txt ;;
+	getmetadata|search)
+		[ -f data/cookies.txt ] || invalid=1
+		[ "$invalid" ] &&
+			echo "You have not logged in yet. See the README.md for instructions." &&
+			exit 1
+		;;
+esac
 
-	# look)
-		# grep -ri TREB3PV
-		# grep -r "[A-Z][0-9]\+" ;;
-
+case "$1" in
 	login)
-		mkdir -p output headers
-		touch output/$1.xml headers/$1.txt
+		out=output/login.xml
+		head=headers/login.txt
+		touch $out $head
 
-		curl \
-		--digest \
-		--show-error \
-		--cookie-jar cookies.txt \
-		--cookie cookies.txt \
-		-u "$login" \
-		-H "$header" \
-		-o output/$1.xml \
-		--dump-header headers/$1.txt \
-		"$url/$1" ;;
+		req \
+			-o $out \
+			--dump-header $head \
+			"$url/login" ;;
 
-	getmetadata) curl \
-		--digest \
-		--show-error \
-		--cookie-jar cookies.txt \
-		--cookie cookies.txt \
-		-u "$login" \
-		-H "$header" \
-		-o output/$1.xml \
-		--dump-header headers/$1.txt \
-		--data Type=METADATA-SYSTEM \
-		--data ID=* \
-		--data Format=COMPACT \
-		"$url/$1" ;;
+	getmetadata)
+		out=output/metadata.xml
+		head=headers/metadata.txt
+		touch $out $head
+
+		req \
+			-o $out \
+			--dump-header $head \
+			--data Type=METADATA-SYSTEM \
+			--data ID=* \
+			--data Format=COMPACT \
+			"$url/getmetadata" ;;
 
 	search)
-		case "$2" in
-	        # --data Query="(MediaKey=),(MediaType=IMAGE)" \
-			1) curl \
-				--digest \
-				--show-error \
-				--cookie-jar cookies.txt \
-				--cookie cookies.txt \
-				-u "$login" \
-				-H "$header" \
-				-o output/$1.xml \
-				--dump-header headers/$1.txt \
-		        --data Format=COMPACT \
-		        --data SearchType=Property \
-		        --data Class=CondoProperty \
-		        --data StandardNames=0 \
-		        --data QueryType=DMQL2 \
-		        --data Query="(Ld=2022-07-10)" \
-				"$url/$1" ;;
+		[ -z "$4" ] &&
+			echo "Invalid arguments provided. See the README.md for instructions." &&
+			exit 1
 
-			2) curl \
-				--digest \
-				--show-error \
-				--cookie-jar cookies.txt \
-				--cookie cookies.txt \
-				-u "$login" \
-				-H "$header" \
-				-o output/$1.xml \
-				--dump-header headers/$1.txt \
-		        --data Format=COMPACT \
-		        --data SearchType=Property \
-		        --data Class=ResidentialProperty \
-		        --data StandardNames=0 \
-		        --data QueryType=DMQL2 \
-		        --data Query="(Ml_num=N5671526)" \
-				"$url/$1" ;;
+		search_type=$2
+		class=$3
+		query=$4
 
-		esac ;;
+		out=output/search.xml
+		head=headers/search.txt
+		touch $out $head
+
+		req \
+			-o $out \
+			--dump-header $head \
+	        --data Format=COMPACT \
+	        --data SearchType=$search_type \
+	        --data Class=$class \
+	        --data StandardNames=0 \
+	        --data QueryType=DMQL2 \
+	        --data Query=$query \
+			"$url/search" ;;
 
 	*)
-		echo "(sh)rets: Invalid usage"
+		echo "Invalid usage. See the README.md for instructions."
 		exit 1 ;;
 esac

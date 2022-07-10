@@ -19,11 +19,11 @@ This creates ``pr``, a password wrapper around the ``sh/rets`` script.
 ## Usage
 ### 1. Login
 Use ``./pr login``, which creates ``data/cookies.txt``, ``output/login.xml``,
-and ``headers/login.txt``. The cookie is used for further requests. This will
-use the credentials you created using the ``creds`` script earlier.
+and ``headers/login.txt``. The first two are used for further requests. This
+will use the credentials you created using the ``creds`` script earlier.
 
 ### 2. Download metadata
-Use ``./pr getmetadata``, which saves the metadata in ``ouptut/metadata.xml``
+Use ``./pr getmetadata``, which saves the metadata in ``output/metadata.xml``
 and the ``curl`` headers in ``headers/metadata.txt``.
 
 ### 3. Search
@@ -33,3 +33,5 @@ Working examples:
 - ``./pr search Property ResidentialProperty "(Ml_num=N5671526)"``
 The search results are saved in ``output/search.xml`` and the headers in
 ``headers/search.txt``.
+
+Not working but provided query: ``"(MediaKey=),(MediaType=IMAGE)"``
