@@ -48,3 +48,11 @@ The search results are saved in ``output/search.xml`` and the headers in
 ``headers/search.txt``.
 
 Not working but provided query: ``"(MediaKey=),(MediaType=IMAGE)"``
+
+#### "The session has expired"
+If you find something like
+```xml
+<RETS ReplyCode="20052" ReplyText="The session has expired" >
+</RETS>
+```
+in your ``output/search.xml``, you'll have to ``./pr login`` again.
