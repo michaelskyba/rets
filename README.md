@@ -21,6 +21,30 @@ Enter your RETS password.
 ```
 This creates ``pr``, a password wrapper around the ``sh/rets`` script.
 
+### Initial MariaDB setup
+First, install your distribution's ``mariadb`` package. Then, initialize with
+```sh
+su # Enter root user
+mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+systemctl start mariadb
+mysql -u root -p # Just press Enter; no password
+```
+Now you're inside MariaDB:
+```mysql
+create database rets_db;
+use rets_db;
+create user 'rets'@'localhost' identified by 'password';
+grant all privileges on rets_db.* to 'rets'@'localhost';
+flush privileges;
+quit
+exit
+```
+Here, the literal string "password" will be used as the password. This is only a
+problem if a malicious agent has direct access to the database, which would
+never happen.
+
+https://wiki.archlinux.org/title/MariaDB
+
 ## Usage
 ### 1. Login
 Use ``./pr login``, which creates ``data/cookies.txt``, ``output/login.xml``,
