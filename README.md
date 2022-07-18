@@ -73,6 +73,17 @@ The search results are saved in ``output/search.xml`` and the headers in
 
 Not working but provided query: ``"(MediaKey=),(MediaType=IMAGE)"``
 
+### 4. Logout
+Once you are finished your session, you are supposed to logout with ``./pr
+logout``.
+
+```
+Once the RETS session is complete, a client application should ALWAYS use the
+Logout transaction to  close the session on the server. This frees session
+resources on the server. Users with too many open sessions could be labeled as a
+network threat or bad behaving client and get disabled or blocked.
+```
+
 #### "The session has expired"
 If you find something like
 ```xml
