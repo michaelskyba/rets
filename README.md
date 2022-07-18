@@ -80,3 +80,6 @@ If you find something like
 </RETS>
 ```
 in your ``output/search.xml``, you'll have to ``./pr login`` again.
+
+## Compiled protocol documentation
+See doc/RETS.md
