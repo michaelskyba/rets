@@ -4,3 +4,4 @@ headers/
 output/
 
 util/gen_fields/condo.*
+doc/*.pdf

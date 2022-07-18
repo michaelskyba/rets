@@ -43,6 +43,16 @@ case "$1" in
 			--dump-header $head \
 			"$url/login" ;;
 
+	logout)
+		out=output/logout.xml
+		head=headers/logout.txt
+		touch $out $head
+
+		req \
+			-o $out \
+			--dump-header $head \
+			"$url/logout" ;;
+
 	getmetadata)
 		out=output/metadata.xml
 		head=headers/metadata.txt
