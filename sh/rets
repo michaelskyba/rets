@@ -56,6 +56,16 @@ case "$1" in
 			--data Format=COMPACT \
 			"$url/getmetadata" ;;
 
+	serverinformation)
+		out=output/serverinformation.xml
+		head=headers/serverinformation.txt
+		touch $out $head
+
+		req \
+			-o $out \
+			--dump-header $head \
+			"$url/serverinformation" ;;
+
 	search)
 		[ -z "$4" ] &&
 			echo "Invalid arguments provided. See the README.md for instructions." &&
