@@ -103,4 +103,4 @@ If you find something like
 in your ``output/search.xml``, you'll have to ``./pr login`` again.
 
 ## Compiled protocol documentation
-See doc/RETS.md
+See [doc/README.md](https://github.com/michaelskyba/rets/tree/master/doc).

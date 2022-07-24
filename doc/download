@@ -1,0 +1,11 @@
+#!/bin/sh
+curl https://paragonconnect.paragonrels.com/Overviews/RETS/paragon-rets-developer-start-guide.pdf \
+	-o guide.pdf
+
+curl https://www.reso.org/download/rets-1-7-specification-dtd-documents/ \
+	-o spec.zip
+unzip spec.zip
+rm spec.zip *.txt *.dtd
+mv "RETS 1.7 Specification.pdf" specification.pdf
+
+echo "Documentation: guide.pdf, specification.pdf"
