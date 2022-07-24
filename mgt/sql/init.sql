@@ -19,5 +19,5 @@ CREATE TABLE records (
 INSERT INTO records
 	(rets_class, rets_date, A_c)
 VALUES
-	("CondoProperty", "2020-01-01", "Central Air"),
+	("ResidentialProperty", "2020-01-01", "Central Air"),
 	("ResidentialProperty", "2022-05-07", "Central Air");
