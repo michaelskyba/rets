@@ -10,11 +10,14 @@ CREATE TABLE records (
 	# Date of record entry
 	rets_date	DATE NOT NULL,
 
+	# RETS properties
+	A_c VARCHAR(128),
+
 	PRIMARY KEY (`id`)
 );
 
-INSERT INTO accounts
-	(rets_class, rets_date)
+INSERT INTO records
+	(rets_class, rets_date, A_c)
 VALUES
-	('CondoProperty', '2020-01-01'),
-	('ResidentialProperty', '2022-05-07');
+	("CondoProperty", "2020-01-01", "Central Air"),
+	("ResidentialProperty", "2022-05-07", "Central Air");

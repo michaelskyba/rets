@@ -39,9 +39,18 @@ flush privileges;
 quit
 exit
 ```
+
 Here, the literal string "password" will be used as the password. This is only a
 problem if a malicious agent has direct access to the database, which would
 never happen.
+
+Log in and create the tables:
+```
+mysql -u rets -p rets_db --password=password
+source mgt/init/create.sql
+select * from records;
+quit
+```
 
 https://wiki.archlinux.org/title/MariaDB
 
