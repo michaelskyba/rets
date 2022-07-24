@@ -5,3 +5,8 @@ output/
 
 util/gen_fields/condo.*
 doc/*.pdf
+
+# Go binaries
+mgt/creds
+load/load
+util/gen_fields/gen

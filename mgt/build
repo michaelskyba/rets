@@ -1,0 +1,9 @@
+#!/bin/sh -e
+cd mgt
+go build creds.go
+
+cd ../load
+go build .
+
+cd ../util/gen_fields/
+go build gen.go

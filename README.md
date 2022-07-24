@@ -5,6 +5,7 @@ RETS Monitoring of Toronto Real Estate Board
 ```sh
 git clone https://github.com/michaelskyba/rets.git
 cd rets
+./mgt/build
 ```
 
 ### Set up credentials

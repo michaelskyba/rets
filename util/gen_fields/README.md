@@ -10,8 +10,3 @@ For example, try the sample xml: ``./gen sample.xml parsed.txt``.
 
 The input should only have two lines, where the first line contains the columns
 separated by tabs, and the second line contains the values separated by tabs.
-
-## Compile
-``go build gen.go``
-
-The provided binary was compiled for x86_64 GNU/Linux.
