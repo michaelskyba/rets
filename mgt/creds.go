@@ -28,7 +28,7 @@ func getScriptText(username, password string) []byte {
 `)
 
 	creds := fmt.Sprintf("export login='%v:%v'\n", username, password)
-	bottom := fmt.Sprintln("./sh/rets $@")
+	bottom := fmt.Sprintln("./mgt/rets $@")
 
 	return []byte(top + creds + bottom)
 }

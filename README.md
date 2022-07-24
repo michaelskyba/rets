@@ -19,7 +19,7 @@ Enter your RETS username.
 Enter your RETS password.
 > {type the password}
 ```
-This creates ``pr``, a password wrapper around the ``sh/rets`` script.
+This creates ``pr``, a password wrapper around the ``mgt/rets`` script.
 
 ### Initial MariaDB setup
 First, install your distribution's ``mariadb`` package. Then, initialize with
@@ -47,12 +47,12 @@ never happen.
 Log in and create the tables:
 ```
 mysql -u rets -p rets_db --password=password
-source mgt/init/create.sql
+source load/sql/init.sql
 select * from records;
 quit
 ```
 
-https://wiki.archlinux.org/title/MariaDB
+See https://wiki.archlinux.org/title/MariaDB for more information about mariadb.
 
 ## Usage
 ### 1. Login
