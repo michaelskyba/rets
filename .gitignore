@@ -4,6 +4,7 @@ headers/
 output/
 
 util/gen_fields/condo.*
+util/*/*.txt
 doc/*.pdf
 
 # Go binaries
