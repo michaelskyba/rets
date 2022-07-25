@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"bufio"
+	"strings"
 )
 
 func hdl(err error) {
@@ -22,7 +23,13 @@ func main() {
 	hdl(err)
 
 	scanner := bufio.NewScanner(inputFile)
-
 	scanner.Scan()
-	fmt.Println(scanner.Text())
+	columns := strings.Split(scanner.Text(), "	")
+
+	data := [][]string{}
+	for i := 0; i < len(columns); i++ {
+		data = append(data, []string{})
+	}
+
+	fmt.Println(data)
 }
