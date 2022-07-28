@@ -6,7 +6,7 @@ import (
 	"bufio"
 	"strings"
 	"sort"
-	// "math"
+	"math"
 )
 
 func hdl(err error) {
@@ -67,19 +67,15 @@ func main() {
 		       return entries[i].empty > entries[j].empty
 	})
 
-	fmt.Println(entries)
-
 	// Compile output
-	/*
 	output := []string{}
-	for idx, value := range data {
-		percentage := math.Round(100 * float64(value) / float64(rows))
+	for _, entry := range entries {
+		percentage := math.Round(100 * float64(entry.empty) / float64(rows))
 		line := fmt.Sprintf("%v: %v/%v (%v%%) of entries were empty.",
-		                    columns[idx], value, rows, percentage)
+		                    entry.name, entry.empty, rows, percentage)
 		output = append(output, line)
 	}
 
 	err = os.WriteFile(os.Args[2], []byte(strings.Join(output, "\n")), 0644)
 	hdl(err)
-	*/
 }
