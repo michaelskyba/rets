@@ -68,13 +68,16 @@ func main() {
 	})
 
 	// Compile output
-	output := []string{}
+	output := []string{"Name" + tab + "# Empty" + tab + "% Empty"}
 	for _, entry := range entries {
 		percentage := math.Round(100 * float64(entry.empty) / float64(rows))
-		line := fmt.Sprintf("%v: %v/%v (%v%%) of entries were empty.",
-		                    entry.name, entry.empty, rows, percentage)
+		line := fmt.Sprintf("%v%v%v%v%v",
+		                    entry.name, tab, entry.empty, tab, percentage)
 		output = append(output, line)
 	}
+
+	// End with a newline
+	output = append(output, "")
 
 	err = os.WriteFile(os.Args[2], []byte(strings.Join(output, "\n")), 0644)
 	hdl(err)

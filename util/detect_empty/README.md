@@ -6,7 +6,7 @@ decide which ones can be safely can be ignored.
 ## Usage
 ``./detect <input xml file> <output txt>``
 
-For example, try the sample xml: ``./detect sample.xml parsed.txt``.
+For example, try the sample xml: ``./detect sample.xml parsed.tsv``.
 
 The input's first line should contain the column names, and the rest should be
 data values which fill (or leave blank!) those initial fields.

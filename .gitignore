@@ -5,6 +5,7 @@ output/
 
 util/gen_fields/condo.*
 util/*/*.txt
+util/*/*.tsv
 doc/*.pdf
 
 # Go binaries
