@@ -42,8 +42,8 @@ func main() {
 		rows++
 
 		for idx, value := range entryColumns {
-			if strings.TrimSpace(value) != "" {
-				// The data value is not empty, so we will increment its count
+			if strings.TrimSpace(value) == "" {
+				// The data value is empty, so we will increment its count
 				data[idx]++
 			}
 		}
@@ -52,9 +52,9 @@ func main() {
 	// Compile output
 	output := []string{}
 	for idx, value := range data {
-		percentage := math.Round(100 * float64(rows-value) / float64(rows))
+		percentage := math.Round(100 * float64(value) / float64(rows))
 		line := fmt.Sprintf("%v: %v/%v (%v%%) of entries were empty.",
-		                    columns[idx], rows-value, rows, percentage)
+		                    columns[idx], value, rows, percentage)
 		output = append(output, line)
 	}
 
