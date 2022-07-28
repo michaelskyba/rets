@@ -5,6 +5,7 @@ import (
 	"os"
 	"bufio"
 	"strings"
+	"sort"
 	// "math"
 )
 
@@ -60,6 +61,12 @@ func main() {
 	for idx, value := range data {
 		entries = append(entries, Entry{value, columns[idx]})
 	}
+
+	// Sort the entries based on how empty they are
+	sort.Slice(entries, func (i, j int) bool {
+		       return entries[i].empty > entries[j].empty
+	})
+
 	fmt.Println(entries)
 
 	// Compile output
