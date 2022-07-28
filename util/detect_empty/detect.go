@@ -5,13 +5,18 @@ import (
 	"os"
 	"bufio"
 	"strings"
-	"math"
+	// "math"
 )
 
 func hdl(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+type Entry struct {
+	empty int
+	name string
 }
 
 func main() {
@@ -49,7 +54,16 @@ func main() {
 		}
 	}
 
+	// Compile entries, which hold the name of the column and the number of
+	// times it appeared empty. This makes it easy to sort later
+	entries := []Entry{}
+	for idx, value := range data {
+		entries = append(entries, Entry{value, columns[idx]})
+	}
+	fmt.Println(entries)
+
 	// Compile output
+	/*
 	output := []string{}
 	for idx, value := range data {
 		percentage := math.Round(100 * float64(value) / float64(rows))
@@ -60,4 +74,5 @@ func main() {
 
 	err = os.WriteFile(os.Args[2], []byte(strings.Join(output, "\n")), 0644)
 	hdl(err)
+	*/
 }
