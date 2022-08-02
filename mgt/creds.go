@@ -18,8 +18,8 @@ func getScriptText(username, password string) []byte {
 	top := fmt.Sprintf(
 `#!/bin/sh
 
-# This file is supposed to kept off of GitHub so that Microsoft doesn't have
-# access to the credentials.
+# This file is supposed to kept off of GitHub so that others don't have access
+# to the credentials.
 
 [ -z "$1" ] &&
 	echo "See the README.md for usage." &&
