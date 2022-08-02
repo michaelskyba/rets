@@ -12,6 +12,26 @@ func hdl(err error) {
 	}
 }
 
+type Record struct {
+	id int
+	retsClass string
+	retsDate string
+	AC string
+}
+
+func printRecords(db *sql.DB) {
+	rows, err := db.Query("SELECT * FROM records")
+	hdl(err)
+	defer rows.Close()
+
+	for rows.Next() {
+		r := Record{}
+		rows.Scan(&r.id, &r.retsClass, &r.retsDate, &r.AC)
+
+		fmt.Println(r)
+	}
+}
+
 func main() {
 	config := mysql.Config{
 		User: "rets",
@@ -28,5 +48,5 @@ func main() {
 	err = db.Ping()
 	hdl(err)
 
-	fmt.Println("load.go: DB connection successful.")
+	printRecords(db)
 }
