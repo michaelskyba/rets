@@ -9,18 +9,13 @@ import (
 
 func hdl(err error, message string) {
 	if err != nil {
-		uError(message)
+		panic(message)
 	}
-}
-
-func uError(message string) {
-	fmt.Fprintln(os.Stderr, message)
-	os.Exit(1)
 }
 
 func main() {
 	if len(os.Args) != 3 {
-		uError("Invalid usage. See the gen_fields README.md.")
+		panic("Invalid usage. See the gen_fields README.md.")
 	}
 
 	inputFile, err := os.Open(os.Args[1])
