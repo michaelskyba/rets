@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"database/sql"
 	"fmt"
+	"os"
+	"strings"
 )
 
 func addCommand(db *sql.DB, args []string) {
@@ -10,9 +13,23 @@ func addCommand(db *sql.DB, args []string) {
 		usageError()
 	}
 
-	table := args[1]
-	filename := args[2]
-	queryDate := args[3]
+	table := args[2]
+	filename := args[3]
+	queryDate := args[4]
 
 	fmt.Println(table, filename, queryDate)
+
+	file, err := os.Open(filename)
+	scanner := bufio.NewScanner(file)
+	hdl(err)
+
+	for scanner.Scan() {
+		fields := strings.Split(scanner.Text(), "	")
+
+		// Skip the first two rows and the very last row, which aren't normal
+		// data entries
+		if len(fields) == 1 {
+			fmt.Println(fields)
+		}
+	}
 }
