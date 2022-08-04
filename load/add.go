@@ -13,20 +13,40 @@ type Columns struct {
 	completed bool
 }
 
+var ignoreIndicator = "load/add.go:Ignore"
+
+// Get a hash table of column names to ignore
+func getIgnoreList(filename string) map[string]bool {
+	file, err := os.Open(filename)
+	hdl(err)
+	scanner := bufio.NewScanner(file)
+	defer file.Close()
+
+	ignore := map[string]bool{}
+	for scanner.Scan() {
+		ignore[scanner.Text()] = true
+	}
+
+	return ignore
+}
+
 func addCommand(db *sql.DB, args []string) {
-	if len(args) != 5 {
+	if len(args) != 6 {
 		usageError()
 	}
 
 	table := args[2]
-	filename := args[3]
-	queryDate := args[4]
+	inputFilename := args[3]
+	ignoreFilename := args[4]
+	ignore := getIgnoreList(ignoreFilename)
+	queryDate := args[5]
 
-	fmt.Println(table, filename, queryDate)
+	fmt.Println(table, inputFilename, ignoreFilename, ignore, queryDate)
 
-	file, err := os.Open(filename)
-	scanner := bufio.NewScanner(file)
+	file, err := os.Open(inputFilename)
 	hdl(err)
+	scanner := bufio.NewScanner(file)
+	defer file.Close()
 
 	columns := Columns{
 		names:     []string{},
@@ -44,11 +64,16 @@ func addCommand(db *sql.DB, args []string) {
 		}
 
 		record := map[string]string{}
-		last := len(values) - 1
 
 		for idx, value := range values {
-			// We don't care about the <DATA> and </DATA> columns
-			if idx == 0 || idx == last {
+			// We need null values so that values[idx] still matches
+			// column.names[idx]
+			if ignore[value] && !columns.completed {
+				columns.names = append(columns.names, ignoreIndicator)
+				continue
+
+				// We're visiting an ignorable value during the record compilation
+			} else if columns.completed && columns.names[idx] == ignoreIndicator {
 				continue
 			}
 
@@ -59,9 +84,7 @@ func addCommand(db *sql.DB, args []string) {
 				columns.names = append(columns.names, value)
 
 			} else {
-				// We skipped the first column ("<DATA>") and are now one ahaed
-				columnIndex := idx - 1
-				record[columns.names[columnIndex]] = value
+				record[columns.names[idx]] = value
 			}
 		}
 
@@ -73,4 +96,6 @@ func addCommand(db *sql.DB, args []string) {
 
 		fmt.Println(record)
 	}
+
+	fmt.Println(columns.names)
 }
