@@ -1,9 +1,10 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
-	"database/sql"
+
 	"github.com/go-sql-driver/mysql"
 )
 
@@ -24,11 +25,11 @@ func usageError() {
 
 func main() {
 	config := mysql.Config{
-		User: "rets",
-		Passwd: "password",
-		Net: "tcp",
-		Addr: "127.0.0.1:3306",
-		DBName: "rets_db",
+		User:                 "rets",
+		Passwd:               "password",
+		Net:                  "tcp",
+		Addr:                 "127.0.0.1:3306",
+		DBName:               "rets_db",
 		AllowNativePasswords: true,
 	}
 
@@ -43,11 +44,8 @@ func main() {
 	}
 
 	switch os.Args[1] {
-
 	case "add":
-		if len(os.Args) != 5 {
-			usageError()
-		}
+		addCommand(db, os.Args)
 
 	default:
 		usageError()
