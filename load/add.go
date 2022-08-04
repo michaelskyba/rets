@@ -30,6 +30,29 @@ func getIgnoreList(filename string) map[string]bool {
 	return ignore
 }
 
+// Add one, specific record to the given database
+func pushData(db *sql.DB, table, queryDate string, record map[string]string) {
+	fields := []string{}
+	values := []string{}
+
+	for field, value := range record {
+		fields = append(fields, field)
+
+		// Values have to be surrounded with quotes
+		values = append(values, fmt.Sprintf("%q", value))
+	}
+
+	fieldString := strings.Join(fields, ",")
+	valueString := strings.Join(values, ",")
+	date := fmt.Sprintf("%q", queryDate)
+
+	// We don't need to worry about SQL injection; only we will have access to
+	// this script.
+	statement := fmt.Sprintf("INSERT INTO %v (%v,rets_date) VALUES (%v,%v)", table, fieldString, valueString, date)
+	_, err := db.Exec(statement)
+	hdl(err)
+}
+
 func addCommand(db *sql.DB, args []string) {
 	if len(args) != 6 {
 		usageError()
@@ -40,8 +63,6 @@ func addCommand(db *sql.DB, args []string) {
 	ignoreFilename := args[4]
 	ignore := getIgnoreList(ignoreFilename)
 	queryDate := args[5]
-
-	fmt.Println(table, inputFilename, ignoreFilename, ignore, queryDate)
 
 	file, err := os.Open(inputFilename)
 	hdl(err)
@@ -72,8 +93,8 @@ func addCommand(db *sql.DB, args []string) {
 				columns.names = append(columns.names, ignoreIndicator)
 				continue
 
-				// We're visiting an ignorable value during the record compilation
 			} else if columns.completed && columns.names[idx] == ignoreIndicator {
+				// We're visiting an ignorable value during the record compilation
 				continue
 			}
 
@@ -92,10 +113,10 @@ func addCommand(db *sql.DB, args []string) {
 		// the values iteration
 		if !columns.completed {
 			columns.completed = true
+
+		} else {
+			// Add the compiled record to the database
+			pushData(db, table, queryDate, record)
 		}
-
-		fmt.Println(record)
 	}
-
-	fmt.Println(columns.names)
 }
