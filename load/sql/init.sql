@@ -1,23 +1,37 @@
-CREATE TABLE records (
+# The "rets_" prefix represents metadata that we generated - i.e. not data
+# coming directly from the RETS-provided records
+
+CREATE TABLE residential_records (
 	id			INT AUTO_INCREMENT NOT NULL,
-
-	# The "rets_" prefix represents metadata that we generated - i.e. not data
-	# coming directly from the RETS-provided records
-
-	# Which class of property we're pulling from
-	rets_class	VARCHAR(128) NOT NULL,
 
 	# Date of record entry
 	rets_date	DATE NOT NULL,
 
 	# RETS properties
 	A_c VARCHAR(128),
+	Ml_num VARCHAR(128),
 
 	PRIMARY KEY (`id`)
 );
 
-INSERT INTO records
-	(rets_class, rets_date, A_c)
+CREATE TABLE condo_records (
+	id			INT AUTO_INCREMENT NOT NULL,
+	rets_date	DATE NOT NULL,
+
+	A_c VARCHAR(128),
+	Ml_num VARCHAR(128),
+
+	PRIMARY KEY (`id`)
+);
+
+INSERT INTO residential_records
+	(rets_date, A_c, Ml_num)
 VALUES
-	("ResidentialProperty", "2020-01-01", "Central Air"),
-	("ResidentialProperty", "2022-05-07", "Central Air");
+	("2020-01-01", "Central Air", "S9999999"),
+	("2022-05-07", "Central Air", "S8888888");
+
+INSERT INTO condo_records
+	(rets_date, A_c, Ml_num)
+VALUES
+	("2021-05-11", "None", "S6666666"),
+	("2022-02-17", "Central Air", "S7777777");

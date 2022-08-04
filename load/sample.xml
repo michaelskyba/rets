@@ -1,0 +1,8 @@
+<RETS ReplyCode="0" ReplyText="">
+<DELIMITER value="09"/>
+<COLUMNS>	A_c	Ignore1	Ignore2	Ignore3	Ml_num	Ignore4	</COLUMNS>
+<DATA>	Central Air	awef	awef2	awef3	S1111111	awef4	</DATA>
+<DATA>	Central Air	awef5	awef6	awef7	S2222222	awef8	</DATA>
+<DATA>	None	awef9	awef10	awef11	S3333333	awef12	</DATA>
+<DATA>	Wall Unit	awef13	awef14	awef15	S4444444	awef16	</DATA>
+</RETS>

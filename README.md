@@ -49,13 +49,16 @@ Log in and create the tables:
 ```
 mysql -u rets -p rets_db --password=password
 source load/sql/init.sql
-select * from records;
+select * from residential_records;
 quit
 ```
 
 See https://wiki.archlinux.org/title/MariaDB for more information about mariadb.
 
-## Usage
+## Loading: Automatic downloading
+See [load/README.md](https://github.com/michaelskyba/rets/tree/master/load).
+
+## Manual usage
 ### 1. Login
 Use ``./pr login``, which creates ``data/cookies.txt``, ``output/login.xml``,
 and ``headers/login.txt``. The first two are used for further requests. This
@@ -94,7 +97,7 @@ resources on the server. Users with too many open sessions could be labeled as a
 network threat or bad behaving client and get disabled or blocked.
 ```
 
-#### "The session has expired"
+### "The session has expired"
 If you find something like
 ```xml
 <RETS ReplyCode="20052" ReplyText="The session has expired" >
