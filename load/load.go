@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"database/sql"
 	"github.com/go-sql-driver/mysql"
 )
@@ -12,24 +13,13 @@ func hdl(err error) {
 	}
 }
 
-type Record struct {
-	id int
-	retsClass string
-	retsDate string
-	AC string
+func printError(message string) {
+	fmt.Fprintln(os.Stderr, message)
+	os.Exit(1)
 }
 
-func printRecords(db *sql.DB) {
-	rows, err := db.Query("SELECT * FROM records")
-	hdl(err)
-	defer rows.Close()
-
-	for rows.Next() {
-		r := Record{}
-		rows.Scan(&r.id, &r.retsClass, &r.retsDate, &r.AC)
-
-		fmt.Println(r)
-	}
+func usageError() {
+	printError("Invalid usage. See the load/ README.md.")
 }
 
 func main() {
@@ -48,5 +38,18 @@ func main() {
 	err = db.Ping()
 	hdl(err)
 
-	printRecords(db)
+	if len(os.Args) < 2 {
+		usageError()
+	}
+
+	switch os.Args[1] {
+
+	case "add":
+		if len(os.Args) != 5 {
+			usageError()
+		}
+
+	default:
+		usageError()
+	}
 }
