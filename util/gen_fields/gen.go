@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"strings"
-	"os"
 	"bufio"
+	"os"
+	"strings"
 )
 
 func hdl(err error, message string) {
@@ -41,7 +40,7 @@ func main() {
 		}
 
 		output = append(output, "\n-- Column --------- :", column,
-		                        "-- Value ---------- :", value)
+			"-- Value ---------- :", value)
 	}
 
 	data := []byte(strings.Join(output, "\n"))
