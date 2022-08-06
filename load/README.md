@@ -16,10 +16,11 @@ ignore the ``Shore_allow`` RETS field, which seems to always be empty.
 Try the sample:
 ```sh
 mysql -u rets -p rets_db --password=password
+source sql/test.sql
 select * from residential_records;
 quit
 
-./load add residential_records sample.xml residential.ignore 2022-02-22
+./load add residential_records sample.xml ignore/sample 2022-02-22
 
 mysql -u rets -p rets_db --password=password
 select * from residential_records;
