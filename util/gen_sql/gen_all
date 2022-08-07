@@ -1,0 +1,10 @@
+#!/bin/sh
+
+[ -z "$1" -o -z "$2" ] &&
+	echo "Invalid usage. See gen_sql/README.md." &&
+	exit 1
+
+while read -r prop
+do
+	./gen "$1" "$prop"
+done < "$2"

@@ -17,3 +17,10 @@ values, filling the columns in.
 
 Only the ``SystemName``, ``MaximumLength``, and ``DataType`` columns affect the
 SQL description and are thus required.
+
+## gen_all
+This script takes the same metadata table that you would give to ``gen_sql``,
+but also takes an property list file instead of a single property. Then, it
+iterates through the properties given and prints the SQL for each line.
+
+Try the example: ``./gen_all sample.xml properties.sample``.
