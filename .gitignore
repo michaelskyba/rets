@@ -13,3 +13,4 @@ mgt/creds
 load/load
 util/gen_fields/gen
 util/detect_empty/detect
+util/gen_sql/gen

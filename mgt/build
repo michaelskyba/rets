@@ -9,3 +9,5 @@ cd ../util/gen_fields/
 go build gen.go
 cd ../detect_empty
 go build detect.go
+cd ../gen_sql
+go build gen.go
