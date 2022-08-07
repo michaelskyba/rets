@@ -47,6 +47,27 @@ func getIndices(input string) Indices {
 	return Indices{arr[0], arr[1], arr[2]}
 }
 
+func createStatement(propertyName, maximumLength, dataType string) {
+	output := propertyName + " "
+
+	if dataType == "Date" {
+		output += "DATE"
+
+	} else if dataType == "Decimal" {
+		output += "INT"
+
+	} else if dataType == "Character" {
+		output += fmt.Sprintf("VARCHAR(%v)", maximumLength)
+
+	} else {
+		printError("Invalid metadata.")
+	}
+
+	output += ","
+
+	fmt.Println(output)
+}
+
 func main() {
 	if len(os.Args) != 3 {
 		printError("Invalid usage.")
@@ -98,4 +119,6 @@ func main() {
 	if !inputFound {
 		printError("Invalid property.")
 	}
+
+	createStatement(propertyName, maximumLength, dataType)
 }
