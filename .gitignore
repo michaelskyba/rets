@@ -4,6 +4,7 @@ headers/
 output/
 
 util/gen_fields/condo.*
+util/*/tests/
 util/*/*.txt
 util/*/*.tsv
 doc/*.pdf
