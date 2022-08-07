@@ -54,7 +54,10 @@ func main() {
 
 	filename := os.Args[1]
 	propertyName := os.Args[2]
+
 	inputFound := false
+	var maximumLength string
+	var dataType string
 
 	file, err := os.Open(filename)
 	hdl(err)
@@ -65,9 +68,6 @@ func main() {
 	columnIndices := getIndices(scanner.Text())
 
 	for scanner.Scan() {
-		var maximumLength string
-		var dataType string
-
 		for i, value := range strings.Split(scanner.Text(), "	") {
 			if i == columnIndices.SystemName {
 				// We got to the row that the input property is on
@@ -87,8 +87,11 @@ func main() {
 		}
 
 		if inputFound {
-			fmt.Println(maximumLength, dataType)
-			os.Exit(0)
+			if maximumLength == "" || dataType == "" {
+				printError("Invalid metadata input.")
+			}
+
+			break
 		}
 	}
 
