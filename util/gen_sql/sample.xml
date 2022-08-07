@@ -1,0 +1,4 @@
+<COLUMNS>	SystemName	StandardName	LongName	Ignore	RandomProperty	Foo	MaximumLength	DataType	Random2	</COLUMNS>
+<DATA>	Foo	PropertyFeatures4	Property Features4	bar	not neededF	afeAWEF	10	Date	Dontcare	</DATA>
+<DATA>	Property_foo	AllInclusive	All Inclusive	baz		A	500	Character	Random	</DATA>
+<DATA>	Aawef	Exterior1	Exterior1	aeEF	_	12WEF	5	Decimal	awef	</DATA>

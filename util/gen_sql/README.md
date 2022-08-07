@@ -9,7 +9,11 @@ specification file (``../../load/sql``).
 
 For example, try the sample xml: ``./detect sample.xml Property_foo``.
 
+## Metadata file
 By "stripped", I mean removing isolating the description of your property type.
 The first line would start with ``<COLUMNS>``, describing the property
 descriptions (metaproperties?), and the rest of the file would be ``<DATA>``
 values, filling the columns in.
+
+Only the ``SystemName``, ``MaximumLength``, and ``DataType`` columns affect the
+SQL description and are thus required.
