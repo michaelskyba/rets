@@ -21,6 +21,7 @@ func hdl(err error) {
 
 func printError(message string) {
 	fmt.Fprintln(os.Stderr, message+" See gen_sql/README.md.")
+	os.Exit(1)
 }
 
 func getIndices(input string) Indices {
@@ -51,11 +52,47 @@ func main() {
 		printError("Invalid usage.")
 	}
 
-	file, err := os.Open(os.Args[1])
+	filename := os.Args[1]
+	propertyName := os.Args[2]
+	inputFound := false
+
+	file, err := os.Open(filename)
 	hdl(err)
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 
 	scanner.Scan()
 	columnIndices := getIndices(scanner.Text())
+
+	for scanner.Scan() {
+		var maximumLength string
+		var dataType string
+
+		for i, value := range strings.Split(scanner.Text(), "	") {
+			if i == columnIndices.SystemName {
+				// We got to the row that the input property is on
+				if value == propertyName {
+					inputFound = true
+
+				} else {
+					break
+				}
+
+			} else if i == columnIndices.MaximumLength {
+				maximumLength = value
+
+			} else if i == columnIndices.DataType {
+				dataType = value
+			}
+		}
+
+		if inputFound {
+			fmt.Println(maximumLength, dataType)
+			os.Exit(0)
+		}
+	}
+
+	if !inputFound {
+		printError("Invalid property.")
+	}
 }
