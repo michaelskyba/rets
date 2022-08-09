@@ -50,7 +50,13 @@ func pushData(db *sql.DB, table, queryDate string, record map[string]string) {
 	// this script.
 	statement := fmt.Sprintf("INSERT INTO %v (%v,rets_date) VALUES (%v,%v)", table, fieldString, valueString, date)
 	_, err := db.Exec(statement)
-	hdl(err)
+
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("Offending statement:")
+		fmt.Println(statement)
+		os.Exit(1)
+	}
 }
 
 func addCommand(db *sql.DB, args []string) {
