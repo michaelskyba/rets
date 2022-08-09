@@ -104,7 +104,10 @@ func addCommand(db *sql.DB, args []string) {
 			if !columns.completed {
 				columns.names = append(columns.names, value)
 
-			} else {
+			} else if value != "" {
+				// If it's empty, it would show up as "", which doesn't fit into
+				// DATE or INT. Instead, we'll just omit it so it will be left as its
+				// empty valu in the SQL table.
 				record[columns.names[idx]] = value
 			}
 		}
