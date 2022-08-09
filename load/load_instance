@@ -1,0 +1,20 @@
+#!/bin/sh
+
+[ -z "$1" ] &&
+	echo "Invalid usage. See load/README.md." &&
+	exit 1
+
+cd ..
+./pr login
+
+./pr search Property CondoProperty "(Ld=$1)"
+mv output/search.xml load/data/condo.xml
+
+./pr search Property ResidentialProperty "(Ld=$1)"
+mv output/search.xml load/data/residential.xml
+
+./pr logout
+cd load
+
+./load add condo_records data/condo.xml ignore/condo "$1"
+./load add residential_records data/residential.xml ignore/residential "$1"

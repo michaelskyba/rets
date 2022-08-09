@@ -26,3 +26,17 @@ mysql -u rets -p rets_db --password=password
 select * from residential_records;
 quit
 ```
+
+### load_instance
+This script is a wrapper around the main ``load`` program that makes the
+necessary RETS queries before loading the downloaded data into both respective
+databases.
+
+It's assumed that you have a normal init.sql setup with
+``ignore/{condo,residential}`` and ``sql/{condo,residential}_records.sql``.
+
+```
+cd /path/to/rets
+cd load
+./load_instance <YYYY-MM-DD>
+```
