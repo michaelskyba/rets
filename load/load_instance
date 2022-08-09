@@ -4,6 +4,9 @@
 	echo "Invalid usage. See load/README.md." &&
 	exit 1
 
+rm -rf data
+mkdir data
+
 cd ..
 ./pr login
 
@@ -15,6 +18,15 @@ mv output/search.xml load/data/residential.xml
 
 ./pr logout
 cd load
+
+# RETS columns might be artificially longer because of expansions, which would
+# collide with the VARCHAR max length specifications
+sed -e \
+	"s/&amp;/\&/g" -e \
+	"s/&quot;/\"/g" -e \
+	"s/&apos;/'/g" -e \
+	"s/&lt;/</g" -e \
+	"s/&gt;/>/g" -i data/*
 
 ./load add condo_records data/condo.xml ignore/condo "$1"
 ./load add residential_records data/residential.xml ignore/residential "$1"
