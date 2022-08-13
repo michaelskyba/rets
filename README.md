@@ -37,6 +37,7 @@ use rets_db;
 create user 'rets'@'localhost' identified by 'password';
 grant all privileges on rets_db.* to 'rets'@'localhost';
 flush privileges;
+SET GLOBAL sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
 quit
 exit
 ```
@@ -44,6 +45,12 @@ exit
 Here, the literal string "password" will be used as the password. This is only a
 problem if a malicious agent has direct access to the database, which would
 never happen.
+
+The resetting of ``sql_mode`` is necessary to remove ``STRICT_TRANS_TABLES``,
+which refuse to add data that exceeds the specified maximum length instead of
+truncating it. Since the hipsters who push to the upstream TREB database ignore
+their own MaximumLength metadata specifications, causing data that exceeds our
+SQL maximum length specifications, this is necessary.
 
 Log in and create the tables:
 ```
