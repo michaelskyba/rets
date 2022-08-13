@@ -40,3 +40,11 @@ cd /path/to/rets
 cd load
 ./load_instance <YYYY-MM-DD>
 ```
+
+### Exporting
+Since ``SELECT INTO OUTFILE`` relies on a janky permission system, use something
+along the lines of
+```
+mysql -u rets -p rets_db --password=password -e "select * from condo_records" > out.tsv
+```
+instead.
